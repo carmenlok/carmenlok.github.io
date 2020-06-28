@@ -1,0 +1,34 @@
+I"�<p>Hi everyone,</p>
+
+<p>I have never created a website before so this is going to be exciting. For the time being, this website is particularly gibberish, with a preset jekyll theme called <a href="https://github.com/chrisbobbe/jekyll-theme-prologue"><code class="language-plaintext highlighter-rouge">Prologue</code></a>, which was shamelessly copied from the brilliant <a href="https://www.linkedin.com/in/chrisbobbe1995">Chris Bobbe</a>. Many thanks to him for creating this elegant theme.</p>
+
+<p>Also, courtesy to the ridiculously talented <a href="https://l.etranger.me/">Dr. Yu</a>, who inspired me to set up this website, even though I have no idea what to do with it yet.</p>
+
+<p>In the near future, I am thinking of expanding more on this blog section. I am quite interested in learning German, Japanese, and a bunch of Data Science stuff that I (was forced :D) would like to acquire for my career growth. I might be adding some notes here to help myself learn. If you see me stop posting, feel free to add comments like “B*tch go learn.”, “<em>HAVE YOU GIVEN UP LEARNING</em>”, “Stop playing switch, update your blog!” here. I would really appreciate that.</p>
+
+<p>Until then, stay tuned for blog number 2! Or not :D.</p>
+
+<!-- You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+
+Jekyll requires blog post files to be named according to the following format:
+
+`YEAR-MONTH-DAY-title.MARKUP`
+
+Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+
+Jekyll also offers powerful support for code snippets:
+
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
+<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+
+
+Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+
+[jekyll-docs]: https://jekyllrb.com/docs/home
+[jekyll-gh]:   https://github.com/jekyll/jekyll
+[jekyll-talk]: https://talk.jekyllrb.com/ -->
+:ET
