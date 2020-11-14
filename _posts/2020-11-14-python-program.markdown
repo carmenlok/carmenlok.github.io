@@ -13,4 +13,4 @@ Lately, I have been thinking a lot about Passwords. I used to save passwords in 
 
 I got to say, he always make fair and strong points. So after shamelessly stealing his codes (as always), I am now encrypting my passwords using [Crypto](https://pypi.org/project/pycrypto/). However, this is still inconvenient. If I am on-the-go with my phone and wanted to access some accounts, I don't have this handy script with me to decrypt my passwords. I am also a bit lazy to install mobile python applications to run the script.
 
-So here I am, trying to develop a password en(de)cryptor on my website! Afterall, [camel.rocks](camel.rocks) can't rock without some useful little features right?
+So here I am, trying to develop a password en(de)cryptor on my website! Afterall, [camel.rocks](https://camel.rocks/) can't rock without some useful little features right?
