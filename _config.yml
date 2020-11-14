@@ -60,3 +60,7 @@ google_analytics: UA-171011917-1
 # The following settings are NECESSARY for the Prologue theme to run:
 theme: jekyll-theme-prologue
 collections: [sections]
+emptyArray: []
+
+comments:
+  receiver: https://{{your-receiver-site}}/api/PostComment}}
