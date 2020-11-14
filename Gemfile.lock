@@ -36,7 +36,7 @@ GEM
     jekyll-theme-prologue (0.3.3)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
-    kramdown (2.2.1)
+    kramdown (2.3.0)
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
@@ -66,6 +66,7 @@ PLATFORMS
 DEPENDENCIES
   jekyll-feed (~> 0.12)
   jekyll-theme-prologue
+  kramdown (>= 2.3.0)
   tzinfo (~> 1.2)
   tzinfo-data
   wdm (~> 0.1.1)
