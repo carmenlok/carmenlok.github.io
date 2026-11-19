@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Carmen Lok</title>
+<meta name="description" content="Carmen Lok: faster inference, from serving to RL rollouts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --card: #ffffff;
+    --ink: #1f1d2b;
+    --muted: #6b6779;
+    --faint: #aaa6b6;
+    --rule: #ebe7f0;
+    --link: #5b3fd6;
+    --hl: #ffe36e;
+    --mint: #c3f0da;
+    --mint-ink: #145c3e;
+    --lilac: #e0d7ff;
+    --lilac-ink: #4a32b0;
+    --butter: #fff0a8;
+    --butter-ink: #6d5600;
+    --pink: #ffd3e4;
+    --pink-ink: #8f2556;
+    --sky: #cfe8ff;
+    --sky-ink: #1d4f86;
+    --shadow: 0 1px 0 rgba(31, 29, 43, .04), 0 10px 30px -18px rgba(31, 29, 43, .25);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15141c;
+      --card: #1c1b25;
+      --ink: #eeecf5;
+      --muted: #a29eb2;
+      --faint: #615d72;
+      --rule: #2b2938;
+      --link: #b8a8ff;
+      --hl: #6a5a14;
+      --mint: #1d4a38;
+      --mint-ink: #9ff0c9;
+      --lilac: #362d63;
+      --lilac-ink: #cfc3ff;
+      --butter: #4f4310;
+      --butter-ink: #ffe680;
+      --pink: #552a40;
+      --pink-ink: #ffb8d4;
+      --sky: #1d3955;
+      --sky-ink: #a9d3ff;
+      --shadow: 0 1px 0 rgba(0, 0, 0, .2), 0 12px 32px -18px rgba(0, 0, 0, .7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15141c;
+    --card: #1c1b25;
+    --ink: #eeecf5;
+    --muted: #a29eb2;
+    --faint: #615d72;
+    --rule: #2b2938;
+    --link: #b8a8ff;
+    --hl: #6a5a14;
+    --mint: #1d4a38;
+    --mint-ink: #9ff0c9;
+    --lilac: #362d63;
+    --lilac-ink: #cfc3ff;
+    --butter: #4f4310;
+    --butter-ink: #ffe680;
+    --pink: #552a40;
+    --pink-ink: #ffb8d4;
+    --sky: #1d3955;
+    --sky-ink: #a9d3ff;
+    --shadow: 0 1px 0 rgba(0, 0, 0, .2), 0 12px 32px -18px rgba(0, 0, 0, .7);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding: 72px max(16px, env(safe-area-inset-right)) 56px max(16px, env(safe-area-inset-left));
+  }
+  @media (max-width: 600px) { body { padding-top: 36px; font-size: 15.5px; } }
+  .page { max-width: 640px; margin: 0 auto; }
+  .serif { font-family: "Fraunces", Georgia, serif; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+  a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent); }
+  a:hover { text-decoration-color: var(--link); }
+  a:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 4px; }
+
+  header { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: nowrap; }
+  header > div { min-width: 0; }
+  @media (max-width: 600px) { header { flex-wrap: wrap; } }
+  h1 { font-size: 48px; line-height: 1; font-weight: 600; letter-spacing: -.02em; margin: 0; }
+  @media (max-width: 600px) { h1 { font-size: 40px; } }
+  .tag { margin: 12px 0 0; font-size: 17px; color: var(--muted); }
+  .tag mark { background: linear-gradient(transparent 55%, var(--hl) 55%, var(--hl) 92%, transparent 92%); color: var(--ink); padding: 0 2px; }
+
+  .art { width: 170px; height: auto; flex: none; }
+  .art text { font-family: "JetBrains Mono", monospace; font-size: 9px; fill: var(--muted); }
+  .art .track { fill: none; stroke: var(--rule); stroke-width: 1.5; }
+  .art .req { fill: var(--mint); transform-box: fill-box; transform-origin: left center; animation: fill 4s ease-out infinite; }
+  .art .pad { fill: var(--butter); stroke: var(--butter-ink); stroke-width: 1; stroke-dasharray: 2 2; animation: pad 4s ease-out infinite; }
+  .art .tick { stroke: var(--faint); stroke-width: 1.2; }
+  .art .tick.on { stroke: var(--ink); stroke-width: 1.6; }
+  .art .cut { stroke: var(--pink-ink); stroke-width: 1.4; stroke-dasharray: 3 3; }
+  .art .cutl { fill: var(--pink-ink); }
+  @keyframes fill { 0% { transform: scaleX(0); } 40%, 100% { transform: scaleX(1); } }
+  @keyframes pad { 0%, 40% { opacity: 0; } 50%, 100% { opacity: 1; } }
+
+  .links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 22px 0 0; font-weight: 500; }
+
+  h2 { font-size: 22px; font-weight: 600; margin: 44px 0 12px; }
+  .about { margin: 0; }
+
+  .intro { margin: -4px 0 10px; color: var(--muted); font-size: 15px; }
+  ul.log { list-style: none; margin: 0; padding: 0; }
+  ul.log li { display: grid; grid-template-columns: 96px 1fr; gap: 14px; padding: 7px 0; }
+  ul.log .d { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--muted); padding-top: 2px; white-space: nowrap; }
+  ul.log .t { font-weight: 600; }
+  ul.log .x { color: var(--muted); }
+  ul.log .sup { display: block; margin-top: 2px; font-size: 13px; color: var(--muted); }
+  ul.work li { grid-template-columns: 128px 1fr; }
+  @media (max-width: 600px) { ul.log li, ul.work li { grid-template-columns: 1fr; gap: 0; } }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px dashed var(--rule); color: var(--faint); font-size: 13.5px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .art .req, .art .pad { animation: none; transform: none; opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <header>
+    <div>
+      <h1 class="serif">Carmen Lok</h1>
+      <p class="tag"><mark>faster inference</mark>, from serving to RL rollouts</p>
+    </div>
+    <svg class="art" viewBox="0 0 170 62" role="img" aria-label="A 769-token prefill padded up to an 832-token CUDA graph, past the 512-token default on SM120">
+      <rect class="track" x="10" y="12" width="150" height="12" rx="4"/>
+      <rect class="req" x="10" y="12" width="112.6" height="12" rx="4"/>
+      <rect class="pad" x="122.6" y="12" width="9.3" height="12" rx="1.5"/>
+      <line class="tick" x1="28.8" y1="32" x2="28.8" y2="36"/><line class="tick" x1="47.5" y1="32" x2="47.5" y2="36"/><line class="tick" x1="66.2" y1="32" x2="66.2" y2="36"/><line class="tick" x1="85.0" y1="32" x2="85.0" y2="36"/><line class="tick" x1="94.4" y1="30" x2="94.4" y2="36"/><line class="tick" x1="103.8" y1="30" x2="103.8" y2="36"/><line class="tick" x1="113.1" y1="30" x2="113.1" y2="36"/><line class="tick" x1="122.5" y1="30" x2="122.5" y2="36"/><line class="tick on" x1="131.9" y1="30" x2="131.9" y2="36"/><line class="tick" x1="141.2" y1="30" x2="141.2" y2="36"/><line class="tick" x1="150.6" y1="30" x2="150.6" y2="36"/><line class="tick" x1="160.0" y1="30" x2="160.0" y2="36"/>
+      <line class="cut" x1="85.0" y1="6" x2="85.0" y2="40"/>
+      <text x="10" y="8">prompt</text>
+      <text class="cutl" x="85.0" y="50" text-anchor="middle">limit</text>
+      <text x="131.9" y="50" text-anchor="middle">padded</text>
+    </svg>
+  </header>
+
+  <nav class="links" aria-label="Links">
+    <a href="https://github.com/carmenlok">github</a>
+    <a href="https://www.linkedin.com/in/carmenlok">linkedin</a>
+    <a href="https://huggingface.co/carmenlok17">huggingface</a>
+  </nav>
+
+  <h2 class="serif">About</h2>
+  <p class="about">I work on inference serving for open-weight models, mostly in <a href="https://github.com/vllm-project/vllm">vLLM</a>, <a href="https://github.com/vllm-project/vllm-omni">vLLM-Omni</a> and <a href="https://github.com/flashinfer-ai/flashinfer">FlashInfer</a> (CUDA graphs, 8-bit floating-point kernels on Blackwell workstation GPUs, full-duplex speech), and on RL training for diffusion models.</p>
+
+  <h2 class="serif">Changelog</h2>
+  <p class="intro">What I've been building and measuring. Each line links to the public pull request or comment.</p>
+  <ul class="log">
+    <li><span class="d">2026-11-18</span><span><span class="t">Prefill CUDA graphs on SM120, measured</span> (<a href="https://github.com/vllm-project/vllm">vLLM</a>, <a href="https://github.com/vllm-project/vllm/pull/64825#issuecomment-6982913052">PR #64825</a>) <span class="x">· on an RTX PRO 6000 Blackwell Max-Q with Qwen3.6-35B-A3B in 8-bit floating point, capturing prefill-sized graphs is about neutral with a fast host CPU, but cuts median time to first token by 30% with the host CPU capped at 3.0 GHz and by 64% at 1.2 GHz; decode speed does not change. A <a href="https://github.com/vllm-project/vllm/pull/64825#issuecomment-6994991851">GPU trace follow-up</a> showed the small extra cost at stock clock is host overhead, not padding</span></span></li>
+    <li><span class="d">2026-11-18</span><span><span class="t">Small-batch 8-bit floating-point matrix multiply on SM121, benchmarked</span> (<a href="https://github.com/flashinfer-ai/flashinfer">FlashInfer</a>, <a href="https://github.com/flashinfer-ai/flashinfer/pull/9464#issuecomment-6982912429">PR #9464</a>, merged) <span class="x">· on a DGX Spark, the new small-batch tiles run 2.6× faster at batch sizes up to 32 on the narrow 256-column shape and 1.1 to 1.2× faster on wider shapes, with output bit-identical to main at all 168 points tested</span></span></li>
+    <li><span class="d">2026-11-18</span><span><span class="t">8-bit floating-point batched matrix multiply on SM121, benchmarked</span> (<a href="https://github.com/flashinfer-ai/flashinfer">FlashInfer</a>, <a href="https://github.com/flashinfer-ai/flashinfer/pull/8137#issuecomment-6982961054">PR #8137</a>) <span class="x">· on a DGX Spark, the new kernel runs the reported shape at batch size 1 in 126 µs instead of 486 µs (3.85×, and 1.7× faster than cuBLAS) and stays about 3× faster up to batch size 512; I also found it slower at batch size 2,048 on large shapes, down to 0.62× on the largest</span></span></li>
+    <li><span class="d">2026-11-08</span><span><span class="t">Skip the audio-stage prewarm on text-only turns for JoyAI full-duplex voice</span> (<a href="https://github.com/vllm-project/vllm-omni">vLLM-Omni</a>, <a href="https://github.com/vllm-project/vllm-omni/pull/10033">PR #10033</a>, approved, waiting to merge) <span class="x">· the server queued a Code2Wav audio request at the start of every turn and aborted it when the reply was text only; a new per-model hook means text-only turns create no audio request, and spoken turns are unchanged</span></span></li>
+    <li><span class="d">2026-10-01</span><span><span class="t">Humming vs Marlin kernels on SM121</span> (<a href="https://github.com/vllm-project/vllm">vLLM</a>, quantization SIG, <a href="https://github.com/vllm-project/vllm/pull/56997#issuecomment-5933217679">PR #56997</a>) <span class="x">· validated the fix for the MXFP8 crash on SM121, with GSM8K accuracy matching Marlin, and gave the SIG the speed data for its kernel-order call: on Qwen3-30B-A3B at 1 to 128 concurrent requests, Humming runs level with Marlin (MXFP8 −8.5% to +1.4%, NVFP4 −3.8% to +3.1% output tokens per second)</span></span></li>
+  </ul>
+
+  <h2 class="serif">Research</h2>
+  <ul class="log">
+    <li><span class="d">2025</span><span><span class="t">Scalable MDP benchmarks for RL</span> (Georgia Tech) <span class="x">· rebuilt Gymnasium's Taxi and Blackjack so the state space grows with N, then compared value iteration, policy iteration, SARSA and Q-learning as the problems scaled</span></span></li>
+    <li><span class="d">2012</span><span><span class="t">Evolution of human cooperation based on reputation and social networks</span> (Göttingen) <span class="x">· a NetLogo model of agents on a network who cooperate or defect each round, with set payoffs and a cap on partners; used in a summer school at GWDG Göttingen</span></span></li>
+    <li><span class="d">2011–12</span><span><span class="t">Empirical game theory for simultaneous auctions</span> (Michigan) <span class="x">· simulated one-shot sealed-bid auctions across 24 bidding strategies and computed regrets to find symmetric Nash equilibria</span></span></li>
+  </ul>
+
+  <h2 class="serif">Work</h2>
+  <ul class="log work">
+    <li><span class="d">2020 → now</span><span><span class="t">Meta</span>, data scientist</span></li>
+    <li><span class="d">2012</span><span><span class="t">Georg-August-Universität Göttingen</span>, research scholar<span class="sup">Professor Dirk Semmann · supervised by Peter Bednarik</span></span></li>
+    <li><span class="d">2011 → 2012</span><span><span class="t">University of Michigan</span>, research assistant <span class="x">· Computer Science department, <a href="https://strategicreasoning.org/">Strategic Reasoning Group</a></span><span class="sup">supervised by Michael Wellman</span></span></li>
+  </ul>
+
+  <footer><span class="mono">© 2026 Carmen Lok</span></footer>
+</main>
+</body>
+</html>
